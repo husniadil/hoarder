@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   web:
     build:
@@ -9,7 +8,7 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - .env  # Automatically load all variables from this file
+      - stack.env
     command:
       - pnpm
       - web
@@ -38,11 +37,8 @@ services:
       - data:/data
       - ..:/app
     working_dir: /app
-    environment:
-      MEILI_ADDR: http://meilisearch:7700
-      BROWSER_WEB_URL: http://chrome:9222
-      DATA_DIR: /data
-      # OPENAI_API_KEY: ...
+    env_file:
+      - stack.env
     command:
       - pnpm
       - workers
@@ -53,15 +49,15 @@ services:
     build:
       dockerfile: Dockerfile.dev
     working_dir: /app
-    environment:
-      DATA_DIR: /data
+    env_file:
+      - stack.env
     volumes:
       - data:/data
       - ..:/app
     command:
-     - /bin/sh
-     - -c
-     - "pnpm install --frozen-lockfile && pnpm run db:migrate"
+      - /bin/sh
+      - -c
+      - "pnpm install --frozen-lockfile && pnpm run db:migrate"
 
 volumes:
   meilisearch:

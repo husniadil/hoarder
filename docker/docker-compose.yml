@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   web:
     image: ghcr.io/hoarder-app/hoarder:${HOARDER_VERSION:-release}
@@ -6,14 +5,14 @@ services:
     volumes:
       - data:/data
     ports:
-      - 3000:3000
+      - 10006:3000
     env_file:
-      - .env
+      - stack.env
     environment:
-      MEILI_ADDR: http://meilisearch:7700
-      BROWSER_WEB_URL: http://chrome:9222
-      # OPENAI_API_KEY: ...
-      DATA_DIR: /data
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
   chrome:
     image: gcr.io/zenika-hub/alpine-chrome:123
     restart: unless-stopped
@@ -28,9 +27,9 @@ services:
     image: getmeili/meilisearch:v1.11.1
     restart: unless-stopped
     env_file:
-      - .env
+      - stack.env
     environment:
-      MEILI_NO_ANALYTICS: "true"
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
       - meilisearch:/meili_data
 
