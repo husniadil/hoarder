@@ -1,0 +1,15 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.11.1
+    restart: unless-stopped
+    env_file:
+      - stack.env
+    ports:
+      - 10007:7700
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    volumes:
+      - meilisearch:/meili_data
+
+volumes:
+  meilisearch:
