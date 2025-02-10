@@ -1,5 +1,6 @@
 services:
   chrome:
+    container_name: chrome
     image: gcr.io/zenika-hub/alpine-chrome:123
     restart: unless-stopped
     ports:
