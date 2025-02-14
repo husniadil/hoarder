@@ -1,6 +1,6 @@
+version: "3.8"
 services:
   web:
-    container_name: hoarder
     image: ghcr.io/hoarder-app/hoarder:${HOARDER_VERSION:-release}
     restart: unless-stopped
     volumes:
@@ -9,9 +9,9 @@ services:
       # - /path/to/your/directory:/data
       - data:/data
     ports:
-      - 10006:3000
+      - 3000:3000
     env_file:
-      - stack.env
+      - .env
     environment:
       MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
@@ -41,4 +41,5 @@ services:
       - meilisearch:/meili_data
 
 volumes:
+  meilisearch:
   data:
